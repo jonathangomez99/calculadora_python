@@ -1,42 +1,70 @@
 import tkinter as tk
 from tkinter import ttk
+from operaciones import suma, resta, multiplicacion, division
+from validaciones import es_numero
 
-def main():
-    # Crear ventana principal
-    root = tk.Tk()
-    root.title("Calculadora")
-    root.geometry("300x250")
-    root.resizable(False, False)
+def obtener_valores():
+    """Obtiene y valida los valores de los Entry"""
+    try:
+        a = es_numero(entry_a.get())
+        b = es_numero(entry_b.get())
+        return a, b
+    except ValueError as e:
+        label_result.config(text=str(e))
+        return None, None
 
-    # ===== FRAME PRINCIPAL =====
-    mainframe = ttk.Frame(root, padding="10")
-    mainframe.pack(fill="both", expand=True)
+def operar_suma():
+    a, b = obtener_valores()
+    if a is not None and b is not None:
+        resultado = suma(a, b)
+        label_result.config(text=f"Resultado: {resultado}")
 
-    # ===== ENTRADAS =====
-    ttk.Label(mainframe, text="Número 1:").grid(column=0, row=0, sticky="w")
-    entrada1 = ttk.Entry(mainframe, width=15)
-    entrada1.grid(column=1, row=0, padx=5, pady=5)
+def operar_resta():
+    a, b = obtener_valores()
+    if a is not None and b is not None:
+        resultado = resta(a, b)
+        label_result.config(text=f"Resultado: {resultado}")
 
-    ttk.Label(mainframe, text="Número 2:").grid(column=0, row=1, sticky="w")
-    entrada2 = ttk.Entry(mainframe, width=15)
-    entrada2.grid(column=1, row=1, padx=5, pady=5)
+def operar_multiplicacion():
+    a, b = obtener_valores()
+    if a is not None and b is not None:
+        resultado = multiplicacion(a, b)
+        label_result.config(text=f"Resultado: {resultado}")
 
-    # ===== BOTONES DE OPERACIONES =====
-    botones_frame = ttk.Frame(mainframe)
-    botones_frame.grid(column=0, row=2, columnspan=2, pady=10)
+def operar_division():
+    a, b = obtener_valores()
+    if a is not None and b is not None:
+        try:
+            resultado = division(a, b)
+            label_result.config(text=f"Resultado: {resultado}")
+        except ValueError as e:
+            label_result.config(text=str(e))
 
-    ttk.Button(botones_frame, text="Suma").grid(column=0, row=0, padx=5, pady=5)
-    ttk.Button(botones_frame, text="Resta").grid(column=1, row=0, padx=5, pady=5)
-    ttk.Button(botones_frame, text="Multiplicación").grid(column=0, row=1, padx=5, pady=5)
-    ttk.Button(botones_frame, text="División").grid(column=1, row=1, padx=5, pady=5)
+# ---------- Interfaz ----------
 
-    # ===== RESULTADO =====
-    ttk.Label(mainframe, text="Resultado:").grid(column=0, row=3, sticky="w", pady=10)
-    resultado_label = ttk.Label(mainframe, text="---", font=("Arial", 12, "bold"))
-    resultado_label.grid(column=1, row=3, sticky="w")
+root = tk.Tk()
+root.title("Calculadora Python")
 
-    root.mainloop()
+frame = ttk.Frame(root, padding=10)
+frame.grid(row=0, column=0)
 
-if __name__ == "__main__":
-    main()
+# Entradas
+ttk.Label(frame, text="Número A:").grid(row=0, column=0, sticky="w")
+entry_a = ttk.Entry(frame, width=15)
+entry_a.grid(row=0, column=1)
 
+ttk.Label(frame, text="Número B:").grid(row=1, column=0, sticky="w")
+entry_b = ttk.Entry(frame, width=15)
+entry_b.grid(row=1, column=1)
+
+# Botones
+ttk.Button(frame, text="Sumar", command=operar_suma).grid(row=2, column=0, pady=5)
+ttk.Button(frame, text="Restar", command=operar_resta).grid(row=2, column=1, pady=5)
+ttk.Button(frame, text="Multiplicar", command=operar_multiplicacion).grid(row=3, column=0, pady=5)
+ttk.Button(frame, text="Dividir", command=operar_division).grid(row=3, column=1, pady=5)
+
+# Resultado
+label_result = ttk.Label(frame, text="", foreground="blue")
+label_result.grid(row=4, column=0, columnspan=2, pady=10)
+
+root.mainloop()
