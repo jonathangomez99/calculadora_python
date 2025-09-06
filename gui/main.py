@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from operaciones import suma, resta, multiplicacion, division
-from validaciones import es_numero
+from core.operaciones import suma, resta, multiplicacion, division
+from core.validaciones import es_numero, no_vacio, validar_division
 
 def obtener_valores():
     """Obtiene y valida los valores de los Entry"""
