@@ -31,11 +31,11 @@ def validar_division(divisor):
     """
     Verifica que el divisor no sea cero.
     Args:
-        divisor (int o float): Número a verificar
+        divisor (int o float): Número a verificar.
     Returns:
-        divisor (float): si es válido
+        divisor (float): Si es válido.
     Raises:
-        ValueError: si el divisor es 0
+        ValueError: Si el divisor es 0.
     """
     if float(divisor) == 0:
         raise ValueError("No se puede dividir entre 0.")
